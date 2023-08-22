@@ -34,12 +34,12 @@ module projeto(
   and and3 (User1[0], CH6);
 
   and and8 (Func0[2], CH3);
-  and and7 (Func0[1], BTN1);
-  and and6 (Func0[0], BTN2);
+  and and7 (Func0[1], BTN0);
+  and and6 (Func0[0], BTN1);
 
   and and11 (Func1[2], CH7);
-  and and10 (Func1[1], BTN3);
-  and and9 (Func1[0], BTN4);
+  and and10 (Func1[1], BTN2);
+  and and9 (Func1[0], BTN3);
 
   // Verifica se os usuários tem a permissão de usar a funcionalidade
   // TODO
@@ -48,42 +48,53 @@ module projeto(
   comparadorDePrioridade comparadorDePrioridade0 (User0, User1, PrioridadeComp, UserMenorPrioridade);
   // se os forem funcionalidades diferentes, ambos executam
   comparadorDeIgualdade comparadorDeIgualdade0 (.A(Func0), .B(Func1), .S(ehIgual));
-  // // inverte a saida de ehIgual
+  // inverte a saida de ehIgual
   not not0 (ehDiferente, ehIgual);
+
+  or or0 (Prioridade[0], PrioridadeComp[0], ehDiferente);
+  or or1 (Prioridade[1], PrioridadeComp[1], ehDiferente);
 
   decodificadorDeFuncionalidade decodificadorDeFuncionalidade0(User0, Func0, Matriz0[6], Matriz0[5], Matriz0[4], Matriz0[3], Matriz0[2], Matriz0[1], Matriz0[0], Leds0[3], Leds0[2], Leds0[1], Leds0[0]);
 
-  decodificadorDeFuncionalidade decodificadorDeFuncionalidade1(User1, Func1, Matriz1[6], Matriz1[5], Matriz1[4], Matriz1[3], Matriz1[2], Matriz1[1], Matriz1[0], Leds1[3], Leds1[2], Leds1[1], Leds1[0]);
+  decodificadorDeFuncionalidade decodificadorDeFuncionalidade1(User1, Func1, Matriz1[6], Matriz1[5], Matriz1[4], Matriz1[3], Matriz1[2], Matriz1[1], Matriz1[0], Leds1[3], Leds1[2], Leds1[1], Leds1[0]);  
 
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade1(M1, Matriz0[0], Matriz1[0], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade2(M2, Matriz0[1], Matriz1[1], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade3(M3, Matriz0[2], Matriz1[2], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade4(M4, Matriz0[3], Matriz1[3], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade5(M5, Matriz0[4], Matriz1[4], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade6(M6, Matriz0[5], Matriz1[5], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade7(M7, Matriz0[6], Matriz1[6], ehDiferente);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade1(Prioridade, Matriz0[6], Matriz1[6], M7);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade2(Prioridade, Matriz0[5], Matriz1[5], M6);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade3(Prioridade, Matriz0[4], Matriz1[4], M5);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade4(Prioridade, Matriz0[3], Matriz1[3], M4);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade5(Prioridade, Matriz0[2], Matriz1[2], M3);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade6(Prioridade, Matriz0[1], Matriz1[1], M2);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade7(Prioridade, Matriz0[0], Matriz1[0], M1);
 
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade8(LED1, Leds0[0], Leds1[0], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade9(LED3, Leds0[1], Leds1[1], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(LED4, Leds0[2], Leds1[2], ehDiferente);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(LED6, Leds0[3], Leds1[3], ehDiferente);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade8(Prioridade, Leds0[3], Leds1[3], LED6);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade9(Prioridade, Leds0[2], Leds1[2], LED4);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(Prioridade, Leds0[0], Leds1[0], LED1);
 endmodule
 
 module TB_Projeto();
-  reg [7:0] Chaves;
-  reg [3:0] Botoes;
+  reg [2:0] User0, User1;
+  reg [2:0] Func0, Func1;
 
   wire D0, D1, D2, D3, D4, D5, D6, D7; // display
   wire M1, M2, M3, M4, M5, M6, M7; // matriz de leds
   wire LED1, LED3, LED4, LED6; // leds
 
-  projeto projeto(Chaves[0], Chaves[1], Chaves[2], Chaves[3], Chaves[4], Chaves[5], Chaves[6], Chaves[7], Botoes[0], Botoes[1], Botoes[2], Botoes[3], D0, D1, D2, D3, D4, D5, D6, D7, M1, M2, M3, M4, M5, M6, M7, LED1, LED3, LED4, LED6);
+  projeto projeto(
+    User0[2], User0[1], User0[0], Func0[2], User1[2], User1[1], User1[0], Func1[2], Func0[1], Func0[0], Func1[1], Func1[0],
+    D0, D1, D2, D3, D4, D5, D6, D7,
+    LED1, LED3, LED4, LED6,
+    M1, M2, M3, M4, M5, M6, M7
+  );
 
   initial begin
-    // admin - user ; func 1 ; func 2
-    Chaves = 10100010; Botoes = 0101; #10;
+    // admin - user ; func 1 ; func 1 = m1
+    User0 = 101; Func0 = 001; User1 = 001; Func1 = 001; #10;
 
-    // admin - user ; func 2 ; func 1
-    Chaves = 10100011; Botoes = 0110; #10;
+    // admin - user ; func 2 ; func 1 = led1 e m2
+    User0 = 101; Func0 = 010; User1 = 001; Func1 = 001; #10;
+
+    // admin - user ; neutro ; func 1 = led3
+    User0 = 101; Func0 = 000; User1 = 001; Func1 = 011; #10;
   end
 endmodule
