@@ -85,3 +85,9 @@ set_location_assignment PIN_35 -to CH0
 set_location_assignment PIN_52 -to BTN3
 set_location_assignment PIN_50 -to BTN2
 set_location_assignment PIN_48 -to BTN1
+set_global_assignment -name VERILOG_FILE decodificadorDeDisplay.v
+set_location_assignment PIN_97 -to Col
+set_location_assignment PIN_88 -to Digito1
+set_location_assignment PIN_66 -to Digito2
+set_location_assignment PIN_68 -to Digito3
+set_location_assignment PIN_37 -to Digito4

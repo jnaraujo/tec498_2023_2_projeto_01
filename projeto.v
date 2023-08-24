@@ -5,7 +5,8 @@ module projeto(
   D0, D1, D2, D3, D4, D5, D6, D7, // display
   LED1, LED3, LED4, LED6, // leds
   M1, M2, M3, M4, M5, M6, M7, // matriz de leds
-  Col // coluna da matriz de leds
+  Col, // coluna da matriz de leds
+  Digito1, Digito2, Digito3, Digito4 // display de 7 segmentos
 );
   input CH0, CH1, CH2, CH3, CH4, CH5, CH6, CH7; // chaves
   input BTN0, BTN1, BTN2, BTN3; // botoes
@@ -14,6 +15,7 @@ module projeto(
   output M1, M2, M3, M4, M5, M6, M7; // matriz de leds
   output LED1, LED3, LED4, LED6; // leds
   output Col; // coluna da matriz de leds
+  output Digito1, Digito2, Digito3, Digito4; // display de 7 segmentos
 
   // fios
   wire Not_BTN0, Not_BTN1, Not_BTN2, Not_BTN3; // botões funcionam em logica invertida
@@ -81,8 +83,18 @@ module projeto(
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(Prioridade, Leds0[0], Leds1[0], LED1);
 
+  decodificadorDeDisplay(
+    .User(UserMenorPrioridade),
+    .A(D0),.B(D1),.C(D2),.D(D3),.E(D4),.F(D5),.G(D6),.DP(D7)
+  );
+
   // define a coluna que será ligada
   assign Col = 1;
+  // define o digito que será ligado
+  assign Digito1 = 1;
+  assign Digito2 = 0;
+  assign Digito3 = 0;
+  assign Digito4 = 0;
 endmodule
 
 module TB_Projeto();
