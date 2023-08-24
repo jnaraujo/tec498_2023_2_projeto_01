@@ -28,7 +28,7 @@ module projeto(
   wire [3:0] Leds0, Leds1;
 
   wire [2:0] UserMenorPrioridade;
-  wire [2:0] PrioridadeComp, Prioridade;
+  wire [1:0] PrioridadeComp, Prioridade;
   wire ehIgual, ehDiferente;
 
   // inverte os botoes
@@ -83,7 +83,7 @@ module projeto(
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(Prioridade, Leds0[0], Leds1[0], LED1);
 
-  decodificadorDeDisplay(
+  decodificadorDeDisplay decodificadorDeDisplay(
     .User(UserMenorPrioridade),
     .A(D0),.B(D1),.C(D2),.D(D3),.E(D4),.F(D5),.G(D6),.DP(D7)
   );
