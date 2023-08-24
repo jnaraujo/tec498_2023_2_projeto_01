@@ -5,6 +5,7 @@ module projeto(
   D0, D1, D2, D3, D4, D5, D6, D7, // display
   LED1, LED3, LED4, LED6, // leds
   M1, M2, M3, M4, M5, M6, M7, // matriz de leds
+  Col // coluna da matriz de leds
 );
   input CH0, CH1, CH2, CH3, CH4, CH5, CH6, CH7; // chaves
   input BTN0, BTN1, BTN2, BTN3; // botoes
@@ -12,8 +13,11 @@ module projeto(
   output D0, D1, D2, D3, D4, D5, D6, D7; // display
   output M1, M2, M3, M4, M5, M6, M7; // matriz de leds
   output LED1, LED3, LED4, LED6; // leds
+  output Col; // coluna da matriz de leds
 
   // fios
+  wire Not_BTN0, Not_BTN1, Not_BTN2, Not_BTN3; // botões funcionam em logica invertida
+
   wire [2:0] User0, User1;
 
   wire [2:0] Func0, Func1;
@@ -25,6 +29,12 @@ module projeto(
   wire [2:0] PrioridadeComp, Prioridade;
   wire ehIgual, ehDiferente;
 
+  // inverte os botoes
+  not (Not_BTN0, BTN0);
+  not (Not_BTN1, BTN1);
+  not (Not_BTN2, BTN2);
+  not (Not_BTN3, BTN3);
+
   and and2 (User0[2], CH0);
   and and1 (User0[1], CH1);
   and and0 (User0[0], CH2);
@@ -34,12 +44,12 @@ module projeto(
   and and3 (User1[0], CH6);
 
   and and8 (Func0[2], CH3);
-  and and7 (Func0[1], BTN0);
-  and and6 (Func0[0], BTN1);
+  and and7 (Func0[1], Not_BTN0);
+  and and6 (Func0[0], Not_BTN1);
 
   and and11 (Func1[2], CH7);
-  and and10 (Func1[1], BTN2);
-  and and9 (Func1[0], BTN3);
+  and and10 (Func1[1], Not_BTN2);
+  and and9 (Func1[0], Not_BTN3);
 
   // Verifica se os usuários tem a permissão de usar a funcionalidade
   // TODO
@@ -70,9 +80,18 @@ module projeto(
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade9(Prioridade, Leds0[2], Leds1[2], LED4);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(Prioridade, Leds0[0], Leds1[0], LED1);
+
+  // define a coluna que será ligada
+  assign Col = 1;
 endmodule
 
 module TB_Projeto();
+  /*
+    Os valores correspondentes aos botões funcionam com lógica invertida
+    na placa. Porém, para melhor visualização, os valores foram invertidos
+    aqui no código.
+  */
+
   reg [2:0] User0, User1;
   reg [2:0] Func0, Func1;
 
@@ -81,10 +100,11 @@ module TB_Projeto();
   wire LED1, LED3, LED4, LED6; // leds
 
   projeto projeto(
-    User0[2], User0[1], User0[0], Func0[2], User1[2], User1[1], User1[0], Func1[2], Func0[1], Func0[0], Func1[1], Func1[0],
-    D0, D1, D2, D3, D4, D5, D6, D7,
-    LED1, LED3, LED4, LED6,
-    M1, M2, M3, M4, M5, M6, M7
+    User0[2], User0[1], User0[0], Func0[2], User1[2], User1[1], User1[0], Func1[2], // chaves
+    ~Func0[1], ~Func0[0], ~Func1[1], ~Func1[0], // botoes
+    D0, D1, D2, D3, D4, D5, D6, D7, // display
+    LED1, LED3, LED4, LED6, // leds
+    M1, M2, M3, M4, M5, M6, M7 // matriz de leds
   );
 
   initial begin
