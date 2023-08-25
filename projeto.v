@@ -91,10 +91,10 @@ module projeto(
   // define a coluna que será ligada
   assign Col = 1;
   // define o digito que será ligado
-  assign Digito1 = 1;
-  assign Digito2 = 0;
-  assign Digito3 = 0;
-  assign Digito4 = 0;
+  assign Digito1 = 0;
+  assign Digito2 = 1;
+  assign Digito3 = 1;
+  assign Digito4 = 1;
 endmodule
 
 module TB_Projeto();
