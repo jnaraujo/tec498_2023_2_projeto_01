@@ -85,6 +85,7 @@ module projeto(
 
   decodificadorDeDisplay decodificadorDeDisplay(
     .User(UserMenorPrioridade),
+    .Enable(Matriz0[1]), // ativa na funcionalidade 2
     .A(D0),.B(D1),.C(D2),.D(D3),.E(D4),.F(D5),.G(D6),.DP(D7)
   );
 
