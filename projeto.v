@@ -6,7 +6,8 @@ module projeto(
   LED1, LED3, LED4, LED6, // leds
   M1, M2, M3, M4, M5, M6, M7, // matriz de leds
   Col, // coluna da matriz de leds
-  Digito1, Digito2, Digito3, Digito4 // display de 7 segmentos
+  Digito1, Digito2, Digito3, Digito4, // display de 7 segmentos
+  LED_R, LED_G, LED_B // led do piloto automatico
 );
   input CH0, CH1, CH2, CH3, CH4, CH5, CH6, CH7; // chaves
   input BTN0, BTN1, BTN2, BTN3; // botoes
@@ -16,6 +17,7 @@ module projeto(
   output LED1, LED3, LED4, LED6; // leds
   output Col; // coluna da matriz de leds
   output Digito1, Digito2, Digito3, Digito4; // display de 7 segmentos
+  output LED_R, LED_G, LED_B; // led do piloto automatico
 
   // fios
   wire Not_BTN0, Not_BTN1, Not_BTN2, Not_BTN3; // botões funcionam em logica invertida
@@ -58,8 +60,14 @@ module projeto(
 
   // compara a prioridade dos usuarios
   comparadorDePrioridade comparadorDePrioridade0 (User0, User1, PrioridadeComp, UserMenorPrioridade);
+
+  // liga o led do piloto automatico
+  // PrioridadeComp é 11 quando os dois usuarios tem entrada 111
+  and andPA (LED_G, PrioridadeComp[1], PrioridadeComp[0]);
+
   // se os forem funcionalidades diferentes, ambos executam
   comparadorDeIgualdade comparadorDeIgualdade0 (.A(Func0), .B(Func1), .S(ehIgual));
+
   // inverte a saida de ehIgual
   not not0 (ehDiferente, ehIgual);
 
@@ -96,6 +104,9 @@ module projeto(
   assign Digito2 = 1;
   assign Digito3 = 1;
   assign Digito4 = 1;
+
+  assign LED_R = 0;
+  assign LED_B = 0;
 endmodule
 
 module TB_Projeto();
@@ -111,13 +122,19 @@ module TB_Projeto();
   wire D0, D1, D2, D3, D4, D5, D6, D7; // display
   wire M1, M2, M3, M4, M5, M6, M7; // matriz de leds
   wire LED1, LED3, LED4, LED6; // leds
+  wire Col; // coluna da matriz de leds
+  wire Digito1, Digito2, Digito3, Digito4; // display de 7 segmentos
+  wire LED_R, LED_G, LED_B; // led do piloto automatico
 
   projeto projeto(
     User0[2], User0[1], User0[0], Func0[2], User1[2], User1[1], User1[0], Func1[2], // chaves
     ~Func0[1], ~Func0[0], ~Func1[1], ~Func1[0], // botoes
     D0, D1, D2, D3, D4, D5, D6, D7, // display
     LED1, LED3, LED4, LED6, // leds
-    M1, M2, M3, M4, M5, M6, M7 // matriz de leds
+    M1, M2, M3, M4, M5, M6, M7, // matriz de leds
+    Col, // coluna da matriz de leds
+    Digito1, Digito2, Digito3, Digito4, // display de 7 segmentos
+    LED_R, LED_G, LED_B // led do piloto automatico
   );
 
   initial begin
@@ -129,5 +146,8 @@ module TB_Projeto();
 
     // admin - user ; neutro ; func 1 = led3
     User0 = 101; Func0 = 000; User1 = 001; Func1 = 011; #10;
+
+    // piloto automatico - piloto automatico ; led rgb
+    User0 = 111; Func0 = 101; User1 = 111; Func1 = 101; #10;
   end
 endmodule

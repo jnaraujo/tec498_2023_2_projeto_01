@@ -91,3 +91,6 @@ set_location_assignment PIN_88 -to Digito1
 set_location_assignment PIN_66 -to Digito2
 set_location_assignment PIN_68 -to Digito3
 set_location_assignment PIN_37 -to Digito4
+set_location_assignment PIN_74 -to LED_B
+set_location_assignment PIN_72 -to LED_G
+set_location_assignment PIN_86 -to LED_R
