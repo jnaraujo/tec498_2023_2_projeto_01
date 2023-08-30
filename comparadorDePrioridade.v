@@ -164,6 +164,9 @@ module TB_ComparadorDePrioridade();
     User0 = 101; User1 = 101; #10; // 1 0 - 1	0	1
 
     User0 = 111; User1 = 111; #10; // 1 1 - 0	0	0
+
+    // casos invalidos
+    User0 = 101; User1 = 001; #10;
     
   end
 endmodule
