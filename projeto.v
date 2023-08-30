@@ -171,19 +171,25 @@ module TB_Projeto();
     User0 = 111; Func0 = 101; User1 = 111; Func1 = 101; #10;
 
     // casos em que um dos usuarios é invalido
-    // admin - nao exite ; m2
+    // admin - nao exite ; m3
     User0 = 101; Func0 = 011; User1 = 100; Func1 = 010; #10;
 
-    // user - nao existe - m1
+    // user - nao existe - led1
     User0 = 001; Func0 = 001; User1 = 100; Func1 = 010; #10;
 
-    // user - nao existe - m1
+    // user - nao existe - led1
     User0 = 001; Func0 = 001; User1 = 100; Func1 = 001; #10;
 
     // user - nao existe - m3
     User0 = 011; Func0 = 011; User1 = 100; Func1 = 001; #10;
 
-    // user - nao existe - m3
+    // user - nao existe - led 6
     User0 = 110; Func0 = 110; User1 = 100; Func1 = 001; #10;
+
+    // nao existe - admin ; m3
+    User0 = 100; Func0 = 011; User1 = 101; Func1 = 011; #10;
+
+    // nao existe - nao existe ; 
+    User0 = 100; Func0 = 011; User1 = 100; Func1 = 011; #10;
   end
 endmodule
