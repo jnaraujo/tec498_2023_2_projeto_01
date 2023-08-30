@@ -22,9 +22,10 @@ module projeto(
   // fios
   wire Not_BTN0, Not_BTN1, Not_BTN2, Not_BTN3; // botões funcionam em logica invertida
 
-  wire [2:0] User0, User1;
 
-  wire [2:0] Func0, Func1;
+  wire [2:0] User0, User1;
+  wire [2:0] Func0, Func1; // funcao verificada
+  wire [2:0] Func0_NV, Func1_NV; // funcao não verificada
   
   wire [6:0] Matriz0, Matriz1;
   wire [3:0] Leds0, Leds1;
@@ -32,6 +33,7 @@ module projeto(
   wire [2:0] UserMenorPrioridade;
   wire [1:0] PrioridadeComp, Prioridade;
   wire ehIgual, ehDiferente;
+  wire W_M7, W_M6, W_M5, W_M4, W_M3, W_M2, W_M1;
 
   // inverte os botoes
   not (Not_BTN0, BTN0);
@@ -47,16 +49,19 @@ module projeto(
   and and4 (User1[1], CH5);
   and and3 (User1[0], CH6);
 
-  and and8 (Func0[2], CH3);
-  and and7 (Func0[1], Not_BTN0);
-  and and6 (Func0[0], Not_BTN1);
+  and and8 (Func0_NV[2], CH3);
+  and and7 (Func0_NV[1], Not_BTN0);
+  and and6 (Func0_NV[0], Not_BTN1);
 
-  and and11 (Func1[2], CH7);
-  and and10 (Func1[1], Not_BTN2);
-  and and9 (Func1[0], Not_BTN3);
+  and and11 (Func1_NV[2], CH7);
+  and and10 (Func1_NV[1], Not_BTN2);
+  and and9 (Func1_NV[0], Not_BTN3);
 
   // Verifica se os usuários tem a permissão de usar a funcionalidade
-  // TODO
+  // se sim, a funcionalidade é passada para a saída
+  // se não, a saída é 000
+  verificadorDePermissao verificadorDePermissao0 (.User(User0), .Func(Func0_NV), .S(Func0));
+  verificadorDePermissao verificadorDePermissao1 (.User(User1), .Func(Func1_NV), .S(Func1));
 
   // compara a prioridade dos usuarios
   comparadorDePrioridade comparadorDePrioridade0 (User0, User1, PrioridadeComp, UserMenorPrioridade);
@@ -71,21 +76,36 @@ module projeto(
   // inverte a saida de ehIgual
   not not0 (ehDiferente, ehIgual);
 
+  // prioridade 11 se ambos devem executar
   or or0 (Prioridade[0], PrioridadeComp[0], ehDiferente);
   or or1 (Prioridade[1], PrioridadeComp[1], ehDiferente);
 
+  // decodifica a funcionalidade para o usuario 1
   decodificadorDeFuncionalidade decodificadorDeFuncionalidade0(User0, Func0, Matriz0[6], Matriz0[5], Matriz0[4], Matriz0[3], Matriz0[2], Matriz0[1], Matriz0[0], Leds0[3], Leds0[2], Leds0[1], Leds0[0]);
 
+  // decodifica a funcionalidade para o usuario 2
   decodificadorDeFuncionalidade decodificadorDeFuncionalidade1(User1, Func1, Matriz1[6], Matriz1[5], Matriz1[4], Matriz1[3], Matriz1[2], Matriz1[1], Matriz1[0], Leds1[3], Leds1[2], Leds1[1], Leds1[0]);  
 
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade1(Prioridade, Matriz0[6], Matriz1[6], M7);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade2(Prioridade, Matriz0[5], Matriz1[5], M6);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade3(Prioridade, Matriz0[4], Matriz1[4], M5);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade4(Prioridade, Matriz0[3], Matriz1[3], M4);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade5(Prioridade, Matriz0[2], Matriz1[2], M3);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade6(Prioridade, Matriz0[1], Matriz1[1], M2);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade7(Prioridade, Matriz0[0], Matriz1[0], M1);
+  // multiplexa a matriz de leds
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade1(Prioridade, Matriz0[6], Matriz1[6], W_M7);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade2(Prioridade, Matriz0[5], Matriz1[5], W_M6);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade3(Prioridade, Matriz0[4], Matriz1[4], W_M5);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade4(Prioridade, Matriz0[3], Matriz1[3], W_M4);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade5(Prioridade, Matriz0[2], Matriz1[2], W_M3);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade6(Prioridade, Matriz0[1], Matriz1[1], W_M2);
+  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade7(Prioridade, Matriz0[0], Matriz1[0], W_M1);
 
+  // inverte a saida da matriz de leds
+  // matriz tem logica invertida
+  not not1 (M1, W_M1);
+  not not2 (M2, W_M2);
+  not not3 (M3, W_M3);
+  not not4 (M4, W_M4);
+  not not5 (M5, W_M5);
+  not not6 (M6, W_M6);
+  not not7 (M7, W_M7);
+
+  // multiplexa os leds
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade8(Prioridade, Leds0[3], Leds1[3], LED6);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade9(Prioridade, Leds0[2], Leds1[2], LED4);
   multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
@@ -93,7 +113,7 @@ module projeto(
 
   decodificadorDeDisplay decodificadorDeDisplay(
     .User(UserMenorPrioridade),
-    .Enable(Matriz0[1]), // ativa na funcionalidade 2
+    .Enable(~Matriz0[1]), // ativa na funcionalidade 2 (matriz0[1] = 0)
     .A(D0),.B(D1),.C(D2),.D(D3),.E(D4),.F(D5),.G(D6),.DP(D7)
   );
 
@@ -149,5 +169,21 @@ module TB_Projeto();
 
     // piloto automatico - piloto automatico ; led rgb
     User0 = 111; Func0 = 101; User1 = 111; Func1 = 101; #10;
+
+    // casos em que um dos usuarios é invalido
+    // admin - nao exite ; m2
+    User0 = 101; Func0 = 011; User1 = 100; Func1 = 010; #10;
+
+    // user - nao existe - m1
+    User0 = 001; Func0 = 001; User1 = 100; Func1 = 010; #10;
+
+    // user - nao existe - m1
+    User0 = 001; Func0 = 001; User1 = 100; Func1 = 001; #10;
+
+    // user - nao existe - m3
+    User0 = 011; Func0 = 011; User1 = 100; Func1 = 001; #10;
+
+    // user - nao existe - m3
+    User0 = 110; Func0 = 110; User1 = 100; Func1 = 001; #10;
   end
 endmodule
