@@ -1,3 +1,14 @@
+/*
+Módulo responsável por exibir no display de 7 segmentos o código do usuário
+que tem menor prioridade. Ele recebe como entrada o código do usuário
+e exibe a no display a letra correspondente ao código do usuário.
+
+Admin - A
+Tester - T
+User - U
+Guest - G
+
+*/
 module decodificadorDeDisplay(
     User,
     Enable,
@@ -8,47 +19,48 @@ module decodificadorDeDisplay(
     output A,B,C,D,E,F,G,DP;
     
     wire NOT_User2, NOT_User1, NOT_User0;
-    wire W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13;
+    wire W0, W1, W2, W3, W4, W5, W6, W7, W8, W9, W10, W11, W12, W13, W14;
     wire NOT_Enable;
 
     not (NOT_User2, User[2]);
     not (NOT_User1, User[1]);
     not (NOT_User0, User[0]);
     not (NOT_Enable, Enable);
-    
-    // A	
+
+    // A
     and (W1, NOT_User2, NOT_User1);
-    and (W2, NOT_User2, User[0]);
+    and (W2, User[1], User[0]);
     or (A, NOT_Enable, W1, W2);
 
     // B
-    and (W3, NOT_User2, User[1]);
-    or (B, NOT_Enable, W3, NOT_User0);
+    or (B, NOT_Enable, User[1], W3, NOT_User0);
 
     // C
-    and (W4, NOT_User2, User[1]);
-    and (W5, User[1], User[0]);
-    and (W6, NOT_User1, NOT_User0);
-    or (C, NOT_Enable, W4, W5, W6);
+    and (W3, NOT_User2, User[1]);
+    and (W4, User[1], User[0]);
+    and (W5, NOT_User1, NOT_User0);
+    or (C, NOT_Enable, W3, W4, W5);
 
     // D
-    and (W7, User[2], NOT_User1);
-    and (W8, User[2], User[0]);
-    and (W9, NOT_User2, NOT_User0);
-    or (D, NOT_Enable, W7, W8, W9);
+    and (W6, User[2], NOT_User1);
+    and (W7, User[2], User[0]);
+    and (W8, NOT_User2, NOT_User0);
+    or (D, NOT_Enable, W6, W7, W8);
 
     // E
-    and (W10, NOT_User2, NOT_User1, NOT_User0);
-    or (E, NOT_Enable, W10);
+    and (W9, NOT_User2, NOT_User1, NOT_User0);
+    and (W10, User[2], User[1], User[0]);
+    or (E, NOT_Enable, W9, W10);
 
     // F
-    and (W11, NOT_User2, NOT_User1, NOT_User0);
-    or (F, NOT_Enable, W11);
+    and (W12, NOT_User2, NOT_User1, NOT_User0);
+    and (W11, User[2], User[1], User[0]);
+    or (F, NOT_Enable, W11, W12);
 
     // G
-    and (W12, User[2], User[1], NOT_User0);
-    and (W13, NOT_User2, NOT_User1);
-    or (G, NOT_Enable, W12, W13);
+    and (W13, User[2], User[1]);
+    and (W14, NOT_User2, NOT_User1);
+    or (G, NOT_Enable, W13, W14);
     
     assign DP = 1;
 
@@ -73,7 +85,7 @@ module TB_DecodificadorDeDisplay();
         Enable = 1; User = 100; #10; // 01110001 - invalido - F
         Enable = 1; User = 101; #10; // 00010001 - admin - A
         Enable = 1; User = 110; #10; // 01000011 - guest = G 
-        Enable = 1; User = 111; #10; // 00110001 - piloto automatico - P
+        Enable = 1; User = 111; #10; // 111111111 - neutro - nada
 
         Enable = 0; User = 000; #10; // 111111111 - neutro - nada
         Enable = 0; User = 001; #10; // 111111111 - neutro - nada
