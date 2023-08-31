@@ -1,5 +1,7 @@
-// Módulo que compara a prioridade de dois usuários e retorna qual das interfaces tem maior prioridade
-// Ele também retorna o código do usuário com menor prioridade - para a funcionalidade 2 do projeto
+// Módulo que compara a prioridade de dois usuários e retorna qual das
+// interfaces tem maior prioridade
+// Ele também retorna o código do usuário com menor prioridade - para a funcionalidade 2
+// do projeto
 module comparadorDePrioridade(User0, User1, S, UserMenorPrioridade);
   // Entradas
   input [2:0] User0;

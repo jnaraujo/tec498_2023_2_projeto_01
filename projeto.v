@@ -1,4 +1,10 @@
-// Modulo principal do projeto
+/*
+  Módulo principal do projeto.
+  Ele recebe como entrada os valores das chaves e dos botões e
+  retorna quais LEDs e quais colunas da matriz de LEDs devem ser acesos,
+  além de usar o display de 7 segmentos para exibir o código do usuário
+  que tem menor prioridade quando a funcionalidade 2 é selecionada.
+*/
 module projeto(
   CH0, CH1, CH2, CH3, CH4, CH5, CH6, CH7, // chaves
   BTN0, BTN1, BTN2, BTN3, // botoes

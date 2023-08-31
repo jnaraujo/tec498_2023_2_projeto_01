@@ -1,3 +1,9 @@
+/*
+  Módulo que decodifica a funcionalidade de um usuário e retorna quais
+  LEDs e quais colunas da matriz de LEDs devem ser acesos.
+  Ele recebe como entrada o código do usuário e a funcionalidade
+  e retorna quais LEDs e quais colunas da matriz de LEDs devem ser acesos.
+*/
 module decodificadorDeFuncionalidade(User, Func, M7, M6, M5, M4, M3, M2, M1, L6, L4, L3, L1);
   // entradas
   input [2:0] User, Func;

@@ -1,4 +1,5 @@
-// Modulo que compara dois numeros de 3 bits e retorna 1 se forem iguais e 0 se forem diferentes
+// Modulo que compara dois numeros de 3 bits e retorna 1 se forem iguais
+// e 0 se forem diferentes
 module comparadorDeIgualdade(A, B, S);
 	// entradas
 	input [2:0] A;
