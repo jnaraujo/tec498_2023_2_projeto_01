@@ -31,7 +31,7 @@ module projeto(
   wire [3:0] Leds0, Leds1;
 
   wire [2:0] UserMenorPrioridade;
-  wire [1:0] PrioridadeComp, Prioridade;
+  wire [1:0] Prioridade, Selecao;
   wire ehIgual, ehDiferente;
   wire W_M7, W_M6, W_M5, W_M4, W_M3, W_M2, W_M1;
 
@@ -64,11 +64,11 @@ module projeto(
   verificadorDePermissao verificadorDePermissao1 (.User(User1), .Func(Func1_NV), .S(Func1));
 
   // compara a prioridade dos usuarios
-  comparadorDePrioridade comparadorDePrioridade0 (User0, User1, PrioridadeComp, UserMenorPrioridade);
+  comparadorDePrioridade comparadorDePrioridade0 (User0, User1, Prioridade, UserMenorPrioridade);
 
   // liga o led do piloto automatico
-  // PrioridadeComp é 11 quando os dois usuarios tem entrada 111
-  and andPA (LED_G, PrioridadeComp[1], PrioridadeComp[0]);
+  // Prioridade é 11 quando os dois usuarios tem entrada 111
+  and andPA (LED_G, Prioridade[1], Prioridade[0]);
 
   // se os forem funcionalidades diferentes, ambos executam
   comparadorDeIgualdade comparadorDeIgualdade0 (.A(Func0), .B(Func1), .S(ehIgual));
@@ -76,9 +76,12 @@ module projeto(
   // inverte a saida de ehIgual
   not not0 (ehDiferente, ehIgual);
 
-  // prioridade 11 se ambos devem executar
-  or or0 (Prioridade[0], PrioridadeComp[0], ehDiferente);
-  or or1 (Prioridade[1], PrioridadeComp[1], ehDiferente);
+  // Selecao é 11 se ambos devem executar
+  // Selecao é 10 se apenas o usuario 1 deve executar
+  // Selecao é 01 se apenas o usuario 0 deve executar
+  // Selecao é 00 se nenhum deve executar
+  or or0 (Selecao[0], Prioridade[0], ehDiferente);
+  or or1 (Selecao[1], Prioridade[1], ehDiferente);
 
   // decodifica a funcionalidade para o usuario 1
   decodificadorDeFuncionalidade decodificadorDeFuncionalidade0(User0, Func0, Matriz0[6], Matriz0[5], Matriz0[4], Matriz0[3], Matriz0[2], Matriz0[1], Matriz0[0], Leds0[3], Leds0[2], Leds0[1], Leds0[0]);
@@ -86,14 +89,14 @@ module projeto(
   // decodifica a funcionalidade para o usuario 2
   decodificadorDeFuncionalidade decodificadorDeFuncionalidade1(User1, Func1, Matriz1[6], Matriz1[5], Matriz1[4], Matriz1[3], Matriz1[2], Matriz1[1], Matriz1[0], Leds1[3], Leds1[2], Leds1[1], Leds1[0]);  
 
-  // multiplexa a matriz de leds
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade1(Prioridade, Matriz0[6], Matriz1[6], W_M7);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade2(Prioridade, Matriz0[5], Matriz1[5], W_M6);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade3(Prioridade, Matriz0[4], Matriz1[4], W_M5);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade4(Prioridade, Matriz0[3], Matriz1[3], W_M4);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade5(Prioridade, Matriz0[2], Matriz1[2], W_M3);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade6(Prioridade, Matriz0[1], Matriz1[1], W_M2);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade7(Prioridade, Matriz0[0], Matriz1[0], W_M1);
+  // seleciona a saida da matriz de leds
+  seletorDeFuncionalidade seletorDeFuncionalidade1(Selecao, Matriz0[6], Matriz1[6], W_M7);
+  seletorDeFuncionalidade seletorDeFuncionalidade2(Selecao, Matriz0[5], Matriz1[5], W_M6);
+  seletorDeFuncionalidade seletorDeFuncionalidade3(Selecao, Matriz0[4], Matriz1[4], W_M5);
+  seletorDeFuncionalidade seletorDeFuncionalidade4(Selecao, Matriz0[3], Matriz1[3], W_M4);
+  seletorDeFuncionalidade seletorDeFuncionalidade5(Selecao, Matriz0[2], Matriz1[2], W_M3);
+  seletorDeFuncionalidade seletorDeFuncionalidade6(Selecao, Matriz0[1], Matriz1[1], W_M2);
+  seletorDeFuncionalidade seletorDeFuncionalidade7(Selecao, Matriz0[0], Matriz1[0], W_M1);
 
   // inverte a saida da matriz de leds
   // matriz tem logica invertida
@@ -105,11 +108,11 @@ module projeto(
   not not6 (M6, W_M6);
   not not7 (M7, W_M7);
 
-  // multiplexa os leds
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade8(Prioridade, Leds0[3], Leds1[3], LED6);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade9(Prioridade, Leds0[2], Leds1[2], LED4);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade10(Prioridade, Leds0[1], Leds1[1], LED3);
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade11(Prioridade, Leds0[0], Leds1[0], LED1);
+  // seleciona a saida dos leds
+  seletorDeFuncionalidade seletorDeFuncionalidade8(Selecao, Leds0[3], Leds1[3], LED6);
+  seletorDeFuncionalidade seletorDeFuncionalidade9(Selecao, Leds0[2], Leds1[2], LED4);
+  seletorDeFuncionalidade seletorDeFuncionalidade10(Selecao, Leds0[1], Leds1[1], LED3);
+  seletorDeFuncionalidade seletorDeFuncionalidade11(Selecao, Leds0[0], Leds1[0], LED1);
 
   decodificadorDeDisplay decodificadorDeDisplay(
     .User(UserMenorPrioridade),

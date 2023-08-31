@@ -1,6 +1,11 @@
-module multiplexadorDeFuncionalidade(P, A, B, S);
-  input [1:0] P;
-  input A, B;
+// Modulo responsavel por selecionar a saida entre A ou B
+// Se P for 10, a saida é A
+// Se P for 01, a saida é B
+// Se P for 11, a saida é A ou B
+// Se P for 00, a saida é 0
+module seletorDeFuncionalidade(P, A, B, S);
+  input [1:0] P; // Prioridade
+  input A, B; // Entradas
 
   output S;
 
@@ -12,13 +17,13 @@ module multiplexadorDeFuncionalidade(P, A, B, S);
   or or0 (S, P1_AND_A, P0_AND_B);
 endmodule
 
-module TB_MultiplexadorDeFuncionalidade();
+module TB_SeletorDeFuncionalidade();
   reg [1:0] P;
   reg A, B;
 
   wire S;
 
-  multiplexadorDeFuncionalidade multiplexadorDeFuncionalidade(P, A, B, S);
+  seletorDeFuncionalidade seletorDeFuncionalidade(P, A, B, S);
 
   initial begin
     P = 01; A = 0; B = 1; #10; // 1
