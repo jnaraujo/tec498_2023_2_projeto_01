@@ -28,8 +28,7 @@ module projeto(
   // fios
   wire Not_BTN0, Not_BTN1, Not_BTN2, Not_BTN3; // botões funcionam em logica invertida
 
-
-  wire [2:0] User0, User1;
+  wire [2:0] User0, User1; // usuario
   wire [2:0] Func0, Func1; // funcao verificada
   wire [2:0] Func0_NV, Func1_NV; // funcao não verificada
   
@@ -47,18 +46,22 @@ module projeto(
   not (Not_BTN2, BTN2);
   not (Not_BTN3, BTN3);
 
+  // define os bits do usuario 0
   and and2 (User0[2], CH0);
   and and1 (User0[1], CH1);
   and and0 (User0[0], CH2);
   
+  // define os bits do usuario 1
   and and5 (User1[2], CH4);
   and and4 (User1[1], CH5);
   and and3 (User1[0], CH6);
 
+  // define os bits da funcionalidade 0
   and and8 (Func0_NV[2], CH3);
   and and7 (Func0_NV[1], Not_BTN0);
   and and6 (Func0_NV[0], Not_BTN1);
 
+  // define os bits da funcionalidade 1
   and and11 (Func1_NV[2], CH7);
   and and10 (Func1_NV[1], Not_BTN2);
   and and9 (Func1_NV[0], Not_BTN3);
