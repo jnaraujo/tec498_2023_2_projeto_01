@@ -52,38 +52,38 @@ module TB_VerificadorDePermissao();
   verificadorDePermissao verificadorDePermissao(User, Func, S);
 
   initial begin
-    User = 110; Func = 001; #10; // 001
-    User = 110; Func = 110; #10; // 110
+    User = 3'b110; Func = 3'b001; #10; // 001
+    User = 3'b110; Func = 3'b110; #10; // 110
 
-    User = 001; Func = 001; #10; // 001
-    User = 001; Func = 011; #10; // 011
-    User = 001; Func = 100; #10; // 100
-    User = 001; Func = 110; #10; // 110
+    User = 3'b001; Func = 3'b001; #10; // 001
+    User = 3'b001; Func = 3'b011; #10; // 011
+    User = 3'b001; Func = 3'b100; #10; // 100
+    User = 3'b001; Func = 3'b110; #10; // 110
 
-    User = 011; Func = 001; #10; // 001
-    User = 011; Func = 010; #10; // 010
-    User = 011; Func = 011; #10; // 011
-    User = 011; Func = 100; #10; // 100
-    User = 011; Func = 110; #10; // 110
+    User = 3'b011; Func = 3'b001; #10; // 001
+    User = 3'b011; Func = 3'b010; #10; // 010
+    User = 3'b011; Func = 3'b011; #10; // 011
+    User = 3'b011; Func = 3'b100; #10; // 100
+    User = 3'b011; Func = 3'b110; #10; // 110
 
-    User = 101; Func = 001; #10; // 001
-    User = 101; Func = 010; #10; // 010
-    User = 101; Func = 011; #10; // 011
-    User = 101; Func = 100; #10; // 100
-    User = 101; Func = 101; #10; // 101
-    User = 101; Func = 110; #10; // 110
-    User = 101; Func = 111; #10; // 111
+    User = 3'b101; Func = 3'b001; #10; // 001
+    User = 3'b101; Func = 3'b010; #10; // 010
+    User = 3'b101; Func = 3'b011; #10; // 011
+    User = 3'b101; Func = 3'b100; #10; // 100
+    User = 3'b101; Func = 3'b101; #10; // 101
+    User = 3'b101; Func = 3'b110; #10; // 110
+    User = 3'b101; Func = 3'b111; #10; // 111
 
     // usuarios invalidos
-    User = 100; Func = 001; #10; // 000
-    User = 100; Func = 010; #10; // 000
-    User = 010; Func = 011; #10; // 000
-    User = 010; Func = 100; #10; // 000
+    User = 3'b100; Func = 3'b001; #10; // 000
+    User = 3'b100; Func = 3'b010; #10; // 000
+    User = 3'b010; Func = 3'b011; #10; // 000
+    User = 3'b010; Func = 3'b100; #10; // 000
 
     // funcionalidades invalidas
-    User = 110; Func = 010; #10; // 000
-    User = 110; Func = 011; #10; // 000
-    User = 011; Func = 101; #10; // 000
+    User = 3'b110; Func = 3'b010; #10; // 000
+    User = 3'b110; Func = 3'b011; #10; // 000
+    User = 3'b011; Func = 3'b101; #10; // 000
   end
 
 endmodule

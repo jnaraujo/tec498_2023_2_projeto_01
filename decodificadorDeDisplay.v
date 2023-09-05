@@ -78,22 +78,22 @@ module TB_DecodificadorDeDisplay();
     );
 
     initial begin
-        Enable = 1; User = 000; #10; // 111111111 - neutro - nada
-        Enable = 1; User = 001; #10; // 10000011 - user - U
-        Enable = 1; User = 010; #10; // 01110001 - invalido - F
-        Enable = 1; User = 011; #10; // 11100001 - tester - T
-        Enable = 1; User = 100; #10; // 01110001 - invalido - F
-        Enable = 1; User = 101; #10; // 00010001 - admin - A
-        Enable = 1; User = 110; #10; // 01000011 - guest = G 
-        Enable = 1; User = 111; #10; // 111111111 - neutro - nada
+        Enable = 1'b1; User = 3'b000; #10; // 111111111 - neutro - nada
+        Enable = 1'b1; User = 3'b001; #10; // 10000011 - user - U
+        Enable = 1'b1; User = 3'b010; #10; // 01110001 - invalido - F
+        Enable = 1'b1; User = 3'b011; #10; // 11100001 - tester - T
+        Enable = 1'b1; User = 3'b100; #10; // 01110001 - invalido - F
+        Enable = 1'b1; User = 3'b101; #10; // 00010001 - admin - A
+        Enable = 1'b1; User = 3'b110; #10; // 01000011 - guest = G 
+        Enable = 1'b1; User = 3'b111; #10; // 111111111 - neutro - nada
 
-        Enable = 0; User = 000; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 001; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 010; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 011; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 100; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 101; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 110; #10; // 111111111 - neutro - nada
-        Enable = 0; User = 111; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b000; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b001; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b010; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b011; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b100; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b101; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b110; #10; // 111111111 - neutro - nada
+        Enable = 1'b0; User = 3'b111; #10; // 111111111 - neutro - nada
     end
 endmodule

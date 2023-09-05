@@ -168,37 +168,37 @@ module TB_Projeto();
 
   initial begin
     // admin - user ; func 1 ; func 1 = m1
-    User0 = 101; Func0 = 001; User1 = 001; Func1 = 001; #10;
+    User0 = 3'b101; Func0 = 3'b001; User1 = 3'b001; Func1 = 3'b001; #10;
 
     // admin - user ; func 2 ; func 1 = led1 e m2
-    User0 = 101; Func0 = 010; User1 = 001; Func1 = 001; #10;
+    User0 = 3'b101; Func0 = 3'b010; User1 = 3'b001; Func1 = 3'b001; #10;
 
     // admin - user ; neutro ; func 1 = led3
-    User0 = 101; Func0 = 000; User1 = 001; Func1 = 011; #10;
+    User0 = 3'b101; Func0 = 3'b000; User1 = 3'b001; Func1 = 3'b011; #10;
 
     // piloto automatico - piloto automatico ; led rgb
-    User0 = 111; Func0 = 101; User1 = 111; Func1 = 101; #10;
+    User0 = 3'b111; Func0 = 3'b101; User1 = 3'b111; Func1 = 3'b101; #10;
 
     // casos em que um dos usuarios é invalido
     // admin - nao exite ; m3
-    User0 = 101; Func0 = 011; User1 = 100; Func1 = 010; #10;
+    User0 = 3'b101; Func0 = 3'b011; User1 = 3'b100; Func1 = 3'b010; #10;
 
     // user - nao existe - led1
-    User0 = 001; Func0 = 001; User1 = 100; Func1 = 010; #10;
+    User0 = 3'b001; Func0 = 3'b001; User1 = 3'b100; Func1 = 3'b010; #10;
 
     // user - nao existe - led1
-    User0 = 001; Func0 = 001; User1 = 100; Func1 = 001; #10;
+    User0 = 3'b001; Func0 = 3'b001; User1 = 3'b100; Func1 = 3'b001; #10;
 
     // user - nao existe - m3
-    User0 = 011; Func0 = 011; User1 = 100; Func1 = 001; #10;
+    User0 = 3'b011; Func0 = 3'b011; User1 = 3'b100; Func1 = 3'b001; #10;
 
     // user - nao existe - led 6
-    User0 = 110; Func0 = 110; User1 = 100; Func1 = 001; #10;
+    User0 = 3'b110; Func0 = 3'b110; User1 = 3'b100; Func1 = 3'b001; #10;
 
     // nao existe - admin ; m3
-    User0 = 100; Func0 = 011; User1 = 101; Func1 = 011; #10;
+    User0 = 3'b100; Func0 = 3'b011; User1 = 3'b101; Func1 = 3'b011; #10;
 
     // nao existe - nao existe ; 
-    User0 = 100; Func0 = 011; User1 = 100; Func1 = 011; #10;
+    User0 = 3'b100; Func0 = 3'b011; User1 = 3'b100; Func1 = 3'b011; #10;
   end
 endmodule
