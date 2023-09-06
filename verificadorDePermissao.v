@@ -1,11 +1,18 @@
+/*
+  Módulo que verifica se um usuário tem permissão para acessar uma funcionalidade.
+  O módulo recebe como entrada um vetor de 3 bits que representa o usuário e um vetor de 3 bits que representa a funcionalidade.
+  O módulo retorna um vetor de 3 bits que representa a funcionalidade do usuário.
+  Se ele não tiver permissão, o vetor de saída será 000.
+*/
+
 module verificadorDePermissao(
   User,
   Func,
   S
 );
-  input [2:0] User, Func;
+  input [2:0] User, Func; // entradas
 
-  output [2:0] S;
+  output [2:0] S; // saida
 
   wire NOT_User0, NOT_User1, NOT_User2;
   wire NOT_F0, NOT_F1, NOT_F2;
